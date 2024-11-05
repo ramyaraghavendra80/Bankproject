@@ -1,0 +1,73 @@
+<!-- signup.html -->
+{% extends "main.html" %} {% block content %}
+<style>
+  body {
+    background-color: #e9ecef;
+    font-family: Arial, sans-serif;
+  }
+
+  .signup-form-container {
+    max-width: 400px;
+    margin: 50px auto;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .signup-form h2 {
+    text-align: center;
+    color: #007bff;
+    margin-bottom: 20px;
+  }
+
+  .signup-form input,
+  .signup-form button {
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .signup-form input:focus {
+    border-color: #80bdff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+
+  .signup-form button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .signup-form button:hover {
+    background-color: #218838;
+  }
+
+  .alert {
+    margin-top: 15px;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    color: #dc3545;
+    background-color: #f8d7da;
+  }
+</style>
+
+<div class="signup-form-container">
+  <h2>Sign Up</h2>
+  <form method="POST" class="signup-form">
+    {% csrf_token %} {{ form.username.label_tag }} {{ form.username }}<br />
+    {{ form.email.label_tag }} {{ form.email }}<br />
+    {{ form.password.label_tag }} {{ form.password }}<br />
+    {{ form.confirm_password.label_tag }} {{ form.confirm_password }}<br />
+    <button type="submit">Sign Up</button>
+  </form>
+  <div class="login-link">Already have an account? <a href="{% url 'login' %}">Log in here</a></div>
+</div>
+{% endblock %}

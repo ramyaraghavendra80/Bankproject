@@ -1,0 +1,141 @@
+{% extends "main.html" %} {% block content %}
+<style>
+  /* Styling for the container */
+  .profilecontainer {
+    background-color: #f9f9f9; /* Light background color */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    padding: 30px; /* Padding for spacious layout */
+    margin-top: 30px; /* Margin to move the content down */
+    text-align: center;
+  }
+  .editcontainer label {
+    color: #cd0779;
+    font-weight: bold;
+  }
+  /* Heading styling */
+  h2 {
+    color: #0056b3; /* Dark blue for heading */
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2rem; /* Larger font size */
+  }
+
+  /* Profile card styling */
+  .card {
+    background-color: #ffffff; /* White background for the card */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Soft shadow for the card */
+    padding: 20px; /* Padding inside the card */
+    margin-top: 30px; /* Margin above the card */
+  }
+
+  /* Profile picture styling */
+  .rounded-circle {
+    border: 4px solid #007bff; /* Border color around the profile image */
+  }
+
+  /* Form input fields styling */
+  .form-group {
+    margin-bottom: 20px; /* Space between form elements */
+  }
+
+  .form-group label {
+    color: #333; /* Dark text color for labels */
+    font-weight: 600; /* Bold text for labels */
+  }
+
+  .form-control {
+    border: 1px solid #007bff; /* Blue border for input fields */
+    border-radius: 5px; /* Rounded corners for input fields */
+    padding: 12px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition effects */
+  }
+
+  .form-control:focus {
+    border-color: #0056b3; /* Darker blue on focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Soft glow effect */
+  }
+
+  /* Button styling */
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    transition: background-color 0.3s;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+
+  .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    color: white;
+    transition: background-color 0.3s;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+  }
+
+  .btn-secondary:hover {
+    background-color: #5a6268; /* Darker gray on hover */
+  }
+
+  /* Profile Information Styling */
+  .profile-info p {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 10px; /* Space between information paragraphs */
+  }
+
+  .profile-info strong {
+    color: #007bff; /* Blue color for strong tags */
+  }
+
+  /* Edit Profile Button */
+  .btn-primary {
+    text-align: center;
+  }
+</style>
+
+<div class="profilecontainer mt-5">
+  <h2>Your Profile</h2>
+
+  {% if editable %}
+  <form class="editcontainer" method="post" enctype="multipart/form-data">
+    {% csrf_token %} {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a href="{% url 'profile' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+  {% else %}
+  <div class="card mt-3 p-3">
+    <div class="profile-info text-center">
+      {% if user.profile.profile_pic %}
+      <img src="{{ user.profile.profile_pic.url }}" alt="Profile Picture" class="rounded-circle mb-3" width="120" height="120" />
+      {% else %}
+      <p>No profile picture available.</p>
+      {% endif %}
+      <p><strong>Username:</strong> {{ user.username }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Customer ID:</strong> {{profile.customer_id }}</p>
+      <p><strong>Date of Birth:</strong> {{ user.profile.dob }}</p>
+      <p><strong>Aadhar:</strong> {{ user.profile.aadhar }}</p>
+      <p><strong>PAN:</strong> {{ user.profile.pan }}</p>
+      <p><strong>Contact Email:</strong> {{ user.profile.contact_email }}</p>
+      <p><strong>Mobile:</strong> {{ user.profile.mobile }}</p>
+      <p><strong>Residence Phone:</strong> {{ user.profile.residence_phone }}</p>
+      <p><strong>Office Phone:</strong> {{ user.profile.office_phone }}</p>
+      <p><strong>Mailing Address:</strong> {{ user.profile.mailing_address }}</p>
+      <p><strong>Permanent Address:</strong> {{ user.profile.permanent_address }}</p>
+      <p><strong>KYC Status:</strong> {{ user.profile.kyc_status|yesno:"Verified,Not Verified" }}</p>
+      <a href="{% url 'UpdateProfileView' %}?edit=true" class="btn btn-primary">Edit Profile</a>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

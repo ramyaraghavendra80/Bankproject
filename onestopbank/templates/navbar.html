@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>One Stop Bank Navbar</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+      /* Navbar Styling */
+      .navbar {
+        height: 80px; /* Set fixed height */
+        background: linear-gradient(45deg, #007bff, #0056b3);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        padding: 0; /* Remove extra padding */
+      }
+
+      .navbar-brand {
+        font-weight: bold;
+        font-size: 1.8rem;
+        color: #ffffff !important;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+      }
+
+      .navbar-nav .nav-link {
+        font-weight: 500;
+        color: #ffffff !important;
+        padding: 0.5rem 1.2rem;
+        white-space: nowrap;
+        transition: color 0.3s ease, background 0.3s ease;
+      }
+
+      .navbar-nav .nav-link:hover {
+        color: #cce7ff !important;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
+      }
+
+      .navbar-nav .nav-link.text-danger {
+        color: #ff4d4d !important;
+        font-weight: 600;
+      }
+
+      /* Active link styling */
+      .navbar-nav .nav-link.active {
+        background-color: #004080;
+        border-radius: 5px;
+        color: #ffffff !important;
+      }
+
+      .navbar-toggler {
+        border: 1px solid #ffffff;
+      }
+
+      .navbar-toggler:hover {
+        background: #0056b3;
+      }
+
+      /* Flexbox alignment for consistent navbar height */
+      .navbar .container {
+        display: flex;
+        align-items: center; /* Vertically centers content */
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .navbar-nav .nav-link {
+          text-align: center;
+          margin: 0.5rem 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#">One Stop Bank</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="home/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/add-account/">Add Account</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/transaction_history/">Transaction History</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/profile/">Your Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-danger" href="/logout/">Logout</a>
+            </li>
+            {% endif %}
+            <li class="nav-item">
+              <a class="nav-link" href="/signup/">SignUp</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/contact_us/">Contact Us</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

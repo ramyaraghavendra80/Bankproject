@@ -1,0 +1,26 @@
+{% extends "main.html" %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="text-center mb-4" style="color: #007bff; font-weight: bold;">Bank Transfer</h2>
+
+  <div class="card shadow-lg p-4" style="border-radius: 15px; background-color: #f8f9fa;">
+    <form method="POST">
+      {% csrf_token %}
+      
+      <div class="form-group mb-4">
+        <label for="id_recipient" class="form-label" style="color: #0056b3; font-weight: 600;">Select Recipient:</label>
+        {{ form.recipient.label_tag }}
+        {{ form.recipient|safe }}  <!-- Use |safe to render the form field properly -->
+      </div>
+
+      <div class="form-group mb-4">
+        <label for="id_amount" class="form-label" style="color: #0056b3; font-weight: 600;">Amount:</label>
+        <input type="number" name="amount" id="id_amount" required class="form-control" style="border: 2px solid #007bff; border-radius: 5px;" />
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block" style="font-size: 16px; padding: 12px 18px;">Transfer</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

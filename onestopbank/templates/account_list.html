@@ -1,0 +1,81 @@
+{% extends "main.html" %} {% block content %}
+<div class="container mt-5">
+  <h2 class="text-center mb-4" style="color: #007bff">Your Accounts</h2>
+
+  <div class="account-list">
+    {% if accounts %} {% for account in accounts %}
+    <div class="account-card mb-4 p-3">
+      <h5 class="bank-name">{{ account.bank_name }}</h5>
+      <p><strong>Account Number:</strong> {{ account.account_number }}</p>
+      <p><strong>Balance:</strong> Rs.{{ account.balance }}</p>
+    </div>
+    {% endfor %} {% else %}
+    <div class="no-accounts">
+      <p>No accounts found.</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="text-center mt-4">
+    <a href="{% url 'add_account' %}" class="btn add-account-btn">Add New Account</a>
+  </div>
+</div>
+
+<style>
+  /* Scoped styling to avoid affecting navbar */
+  .container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+  }
+
+  .account-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .account-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .account-card:hover {
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .bank-name {
+    font-size: 1.25rem;
+    color: #007bff;
+    margin-bottom: 8px;
+  }
+
+  .account-card p {
+    margin: 0;
+    color: #555555;
+  }
+
+  .no-accounts {
+    text-align: center;
+    color: #888888;
+    font-size: 1rem;
+  }
+
+  .btn.add-account-btn {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s;
+  }
+
+  .btn.add-account-btn:hover {
+    background-color: #0056b3;
+  }
+</style>
+{% endblock %}

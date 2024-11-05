@@ -1,0 +1,34 @@
+{% extends "main.html" %} {% block content %}
+<div class="container mt-5">
+  <h2 class="text-center mb-4" style="color: #007bff; font-weight: bold">Transaction History</h2>
+
+  {% if transactions %}
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped shadow-lg">
+      <thead class="thead-light">
+        <tr style="background-color: #007bff; color: #ffffff">
+          <th>Date</th>
+          <th>Amount</th>
+          <th>Transaction Type</th>
+          <th>Description</th>
+          <th>Recipient</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for transaction in transactions %}
+        <tr>
+          <td>{{ transaction.date }}</td>
+          <td style="color: {% if transaction.amount < 0 %} red {% else %} green {% endif %};">{{ transaction.amount }}</td>
+          <td>{{ transaction.transaction_type }}</td>
+          <td>{{ transaction.description }}</td>
+          <td>{% if transaction.recipient %} {{ transaction.recipient.name }} {% else %} N/A {% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="text-center mt-4">No transactions found.</p>
+  {% endif %}
+</div>
+{% endblock %}

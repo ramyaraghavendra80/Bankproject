@@ -1,0 +1,53 @@
+{% extends "main.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Contact Us</h2>
+
+    {% comment %} <!-- Display success message if present -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+    {% endif %} {% endcomment %}
+
+    <!-- Contact Form -->
+    <div class="row">
+        <div class="col-md-6">
+            <h5>Send Us a Message</h5>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_name">Your Name</label>
+                    {{ form.name }}
+                </div>
+                <div class="form-group">
+                    <label for="id_email">Your Email</label>
+                    {{ form.email }}
+                </div>
+                <div class="form-group">
+                    <label for="id_subject">Subject</label>
+                    {{ form.subject }}
+                </div>
+                <div class="form-group">
+                    <label for="id_message">Message</label>
+                    {{ form.message }}
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Send Message</button>
+            </form>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="col-md-6">
+            <h5>Contact Information</h5>
+            <p>We'd love to hear from you! Feel free to reach out to us using the contact form, or through the details below.</p>
+            <p><strong>Email:</strong> support@example.com</p>
+            <p><strong>Phone:</strong> +1 (555) 123-4567</p>
+            <p><strong>Address:</strong> 123 Main Street, City, State, ZIP</p>
+
+            <!-- Google Maps Embed -->
+            <h5 class="mt-4">Our Location</h5>
+            <iframe src="https://www.google.com/maps/embed?pb=YOUR_MAP_EMBED_LINK" width="100%" height="250" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+        </div>
+    </div>
+</div>
+{% endblock %}

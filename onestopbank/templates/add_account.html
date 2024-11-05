@@ -1,0 +1,36 @@
+{% extends "main.html" %} {% block content %}
+<div class="container mt-5">
+  <h2 class="text-center mb-4" style="color: #007bff; font-weight: bold">Add Account</h2>
+
+  <div class="card shadow-lg p-4">
+    <form method="POST">
+      {% csrf_token %}
+
+      <!-- Bank Name Field -->
+      <div class="form-group mb-3">
+        <label for="id_bank_name" class="form-label" style="color: #0056b3; font-weight: 600">Bank Name</label>
+        <input type="text" name="bank_name" id="id_bank_name" class="form-control" value="{{ form.bank_name.value }}" required />
+      </div>
+
+      <!-- Account Number Field -->
+      <div class="form-group mb-3">
+        <label for="id_account_number" class="form-label" style="color: #0056b3; font-weight: 600">Account Number</label>
+        <input type="text" name="account_number" id="id_account_number" class="form-control" value="{{ form.account_number.value }}" required />
+      </div>
+
+      <!-- Balance Field -->
+      <div class="form-group mb-3">
+        <label for="id_balance" class="form-label" style="color: #0056b3; font-weight: 600">Balance</label>
+        <input type="number" name="balance" id="id_balance" class="form-control" value="{{ form.balance.value }}" required />
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block mt-3" style="font-size: 16px; padding: 12px 18px">Add Account</button>
+    </form>
+  </div>
+
+  <div class="mt-4 text-center">
+    <!-- Add color to the View Accounts button -->
+    <a href="{% url 'account_list' %}" class="btn btn-success btn-lg">View Accounts</a>
+  </div>
+</div>
+{% endblock %}

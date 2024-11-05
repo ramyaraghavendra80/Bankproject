@@ -1,0 +1,32 @@
+{% extends "main.html" %} {% block content %}
+<div class="container mt-5">
+  <h2 class="text-center mb-4" style="color: #007bff; font-weight: bold">Add Recipient</h2>
+
+  <div class="card shadow-lg p-4" style="border-radius: 15px; background-color: #f8f9fa">
+    <form method="POST">
+      {% csrf_token %}
+
+      <!-- Recipient Name Field -->
+      <div class="form-group mb-3">
+        <label for="id_name" class="form-label" style="color: #0056b3; font-weight: 600">Recipient Name:</label>
+        <input type="text" name="name" id="id_name" required class="form-control" style="border: 2px solid #007bff; border-radius: 5px" />
+      </div>
+
+      <!-- Account Number Field -->
+      <div class="form-group mb-3">
+        <label for="id_account_number" class="form-label" style="color: #0056b3; font-weight: 600">Account Number:</label>
+        <input type="text" name="account_number" id="id_account_number" required class="form-control" style="border: 2px solid #007bff; border-radius: 5px" />
+      </div>
+
+      <!-- IFSC Code Field -->
+      <div class="form-group mb-3">
+        <label for="id_ifsc_code" class="form-label" style="color: #0056b3; font-weight: 600">IFSC Code:</label>
+        <input type="text" name="ifsc_code" id="id_ifsc_code" required class="form-control" style="border: 2px solid #007bff; border-radius: 5px" />
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary btn-block mt-3" style="font-size: 16px; padding: 12px 18px">Add Recipient</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

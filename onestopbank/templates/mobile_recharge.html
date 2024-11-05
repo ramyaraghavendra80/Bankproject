@@ -1,0 +1,73 @@
+{% extends "main.html" %} {% block content %}
+<style>
+  /* Styling for the container */
+  .mobilecontainer {
+    background-color: #f0f8ff; /* Light cyan background for a fresh look */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    padding: 30px; /* Ample padding for comfort */
+    margin-top: 30px; /* Space above the container */
+    width: 600px !important;
+    margin-left: 550px;
+    text-align: center;
+  }
+
+  /* Heading styling */
+  h2 {
+    color: #007bff; /* Bright blue color for the heading */
+    font-weight: bold; /* Bold font weight for emphasis */
+    text-align: center; /* Centered heading */
+    margin-bottom: 20px; /* Space below the heading */
+    font-size: 1.8rem; /* Increased font size for visibility */
+  }
+
+  /* Form styling */
+  .form-group {
+    margin-bottom: 15px; /* Space between form elements */
+  }
+
+  .form-group label {
+    color: #333; /* Dark color for labels */
+    font-weight: 600; /* Bold labels */
+  }
+
+  .form-control:focus {
+    border-color: #0056b3; /* Darker blue when focused */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Soft glow effect */
+  }
+
+  /* Button styling */
+  .btn-primary {
+    background-color: #007bff; /* Primary blue color */
+    border: none; /* No border */
+    color: white; /* White text for contrast */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transitions for hover effects */
+    padding: 10px 20px; /* Padding for button */
+    font-size: 1.1rem; /* Slightly larger font size for the button */
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: scale(1.05); /* Slight scale effect on hover */
+  }
+
+  /* Responsive styling */
+  @media (max-width: 576px) {
+    .container {
+      padding: 15px; /* Less padding on smaller screens */
+    }
+
+    .btn-primary {
+      width: 100%; /* Full-width button on small screens */
+    }
+  }
+</style>
+
+<div class="mobilecontainer mt-5">
+  <h2>Mobile Recharge</h2>
+  <form method="post">
+    {% csrf_token %} {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Recharge Now</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "main.html" %} {% block content %}
+<style>
+  .card {
+    border: 1px solid #ddd; /* Light border for the card */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    background-color: #f9f9f9; /* Light background for card */
+    border-radius: 10px; /* Rounded corners for the card */
+  }
+
+  .form-group label {
+    color: #0056b3; /* Dark blue for labels */
+    font-weight: 600; /* Bold labels */
+    font-size: 1.1rem; /* Slightly larger font size for better readability */
+    margin-bottom: 5px; /* Space between label and input */
+  }
+
+  .form-group:focus {
+    border-color: #0056b3; /* Darker blue when focused */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Soft glow effect */
+  }
+
+  .btn-primary {
+    background-color: #007bff; /* Bootstrap primary color */
+    border: none; /* No border */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    font-size: 16px; /* Font size for the button */
+    padding: 12px; /* Padding for button */
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+
+  .alert-success {
+    background-color: #d4edda; /* Light green background for success messages */
+    color: #155724; /* Dark green text for success messages */
+    border: 1px solid #c3e6cb; /* Border for success messages */
+  }
+</style>
+
+<div class="container mt-5">
+  <h2 class="text-center mb-4" style="color: #007bff; font-weight: bold">Bill Payment</h2>
+
+  <div class="card shadow-lg p-4">
+    <form class="form-group" method="post">
+      {% csrf_token %} {{ form.as_p }}
+
+      <button type="submit" class="btn btn-primary btn-block mt-3">Pay Bill</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
