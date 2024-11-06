@@ -66,6 +66,7 @@ class LoginView(View):
 @method_decorator(login_required, name='dispatch')
 class LogoutView(View):
     def get(self, request):
+        print("Logout view accessed")  # Debugging line
         logout(request)
         messages.success(request, "Logged out successfully!")
         return redirect('/')
