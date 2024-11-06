@@ -14,6 +14,8 @@ urlpatterns = [
     path('add-account/', AddAccountView.as_view(), name='add_account'),
     path('accounts/', AccountListView.as_view(), name='account_list'),
     path('add_recipient/', AddRecipientView.as_view(), name='add_recipient'),
+    path('add_recipient/bank_transfer/',
+         BankTransferView.as_view(), name='bank_transfer'),
     path('bank_transfer/', BankTransferView.as_view(), name='bank_transfer'),
     path('transaction_history/', TransactionHistoryView.as_view(),
          name='transaction_history'),
