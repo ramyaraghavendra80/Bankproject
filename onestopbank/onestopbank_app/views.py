@@ -167,29 +167,42 @@ class AddRecipientView(View):
             return redirect('bank_transfer')
         return render(request, 'add_recipient.html', {'form': form})
 
-
-# views.py
 class BankTransferView(View):
     @method_decorator(login_required)
     def get(self, request):
-        form = BankTransferForm(user=request.user)  # Pass the user to the form
+        form = BankTransferForm(user=request.user)
         return render(request, 'bank_transfer.html', {'form': form})
 
     @method_decorator(login_required)
     def post(self, request):
-        # Pass the user to the form
         form = BankTransferForm(request.POST, user=request.user)
         if form.is_valid():
             transaction = form.save(commit=False)
             transaction.user = request.user
             transaction.transaction_type = 'bank_transfer'
             transaction.description = f"Bank transfer to {form.cleaned_data['recipient'].name}"
+
+            # Use selected sender account
+            sender_account = form.cleaned_data['sender_account']
+
+            if sender_account.balance < transaction.amount:
+                messages.error(request, "Insufficient funds in the selected account.")
+                return redirect('bank_transfer')
+
+            sender_account.balance -= transaction.amount  # Deduct from sender's account
+            sender_account.save()
+
+            # Update balance of recipient's account
+            recipient_account = form.cleaned_data['recipient'].account
+            recipient_account.balance += transaction.amount
+            recipient_account.save()
+
             transaction.save()
-            messages.success(
-                request, f"Amount {transaction.amount} transferred to {form.cleaned_data['recipient'].name}.")
+            messages.success(request, f"Amount {transaction.amount} transferred to {form.cleaned_data['recipient'].name}.")
             return redirect('transaction_history')
 
         return render(request, 'bank_transfer.html', {'form': form})
+
 
 
 class TransactionHistoryView(View):
@@ -203,18 +216,27 @@ class TransactionHistoryView(View):
 class BillPaymentView(View):
     @method_decorator(login_required)
     def get(self, request):
-        form = BillPaymentForm()
+        form = BillPaymentForm(user=request.user)
         return render(request, 'bill_payment.html', {'form': form})
 
     @method_decorator(login_required)
     def post(self, request):
-        form = BillPaymentForm(request.POST)
+        form = BillPaymentForm(request.POST, user=request.user)
         if form.is_valid():
             bill_payment = form.save(commit=False)
             bill_payment.user = request.user
-            bill_payment.save()
 
-            # Log the transaction in the Transaction model
+            # Use selected sender account
+            sender_account = form.cleaned_data['sender_account']
+
+            if sender_account.balance < bill_payment.amount:
+                messages.error(request, "Insufficient funds in the selected account.")
+                return redirect('bill_payment')
+
+            sender_account.balance -= bill_payment.amount  # Deduct from sender's account
+            sender_account.save()
+
+            bill_payment.save()
             Transaction.objects.create(
                 user=request.user,
                 amount=bill_payment.amount,
@@ -227,22 +249,30 @@ class BillPaymentView(View):
 
         return render(request, 'bill_payment.html', {'form': form})
 
-
 class MobileRechargeView(View):
     @method_decorator(login_required)
     def get(self, request):
-        form = MobileRechargeForm()
+        form = MobileRechargeForm(user=request.user)
         return render(request, 'mobile_recharge.html', {'form': form})
 
     @method_decorator(login_required)
     def post(self, request):
-        form = MobileRechargeForm(request.POST)
+        form = MobileRechargeForm(request.POST, user=request.user)
         if form.is_valid():
             mobile_recharge = form.save(commit=False)
             mobile_recharge.user = request.user
-            mobile_recharge.save()
 
-            # Log the transaction in the Transaction model
+            # Use selected sender account
+            sender_account = form.cleaned_data['sender_account']
+
+            if sender_account.balance < mobile_recharge.amount:
+                messages.error(request, "Insufficient funds in the selected account.")
+                return redirect('mobile_recharge')
+
+            sender_account.balance -= mobile_recharge.amount  # Deduct from sender's account
+            sender_account.save()
+
+            mobile_recharge.save()
             Transaction.objects.create(
                 user=request.user,
                 amount=mobile_recharge.amount,
@@ -254,7 +284,6 @@ class MobileRechargeView(View):
             return redirect('transaction_history')
 
         return render(request, 'mobile_recharge.html', {'form': form})
-
 
 class SelfTransferView(View):
     @method_decorator(login_required)
@@ -272,13 +301,12 @@ class SelfTransferView(View):
 
             # Check if source account has sufficient funds
             if source_account.balance < amount:
-                messages.error(
-                    request, "Insufficient funds in source account.")
+                messages.error(request, "Insufficient funds in source account.")
                 return redirect('self_transfer')
 
             # Perform the transfer
-            source_account.balance -= amount
-            destination_account.balance += amount
+            source_account.balance -= amount  # Deduct from source account
+            destination_account.balance += amount  # Add to destination account
             source_account.save()
             destination_account.save()
 
@@ -294,7 +322,6 @@ class SelfTransferView(View):
             return redirect('transaction_history')
 
         return render(request, 'self_transfer.html', {'form': form})
-
 
 class ContactUsView(View):
     template_name = 'contact_us.html'

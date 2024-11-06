@@ -59,39 +59,48 @@ class RecipientForm(forms.ModelForm):
         self.fields['ifsc_code'].widget.attrs.update(
             {'class': 'form-control', 'placeholder': 'Enter IFSC code (optional)'})
 
-
 class BankTransferForm(forms.ModelForm):
-    recipient = forms.ModelChoiceField(
-        queryset=Recipient.objects.none(), empty_label="Select Recipient")
+    sender_account = forms.ModelChoiceField(queryset=Account.objects.none(), label="Sender Account")
 
     class Meta:
         model = Transaction
-        fields = ['amount', 'recipient']
+        fields = ['recipient', 'amount', 'sender_account']
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
         if user:
-            self.fields['recipient'].queryset = Recipient.objects.filter(
-                user=user)
-
+            self.fields['sender_account'].queryset = Account.objects.filter(user=user)
 
 class BillPaymentForm(forms.ModelForm):
+    sender_account = forms.ModelChoiceField(queryset=Account.objects.none(), label="Sender Account")
+
     class Meta:
         model = BillPayment
-        fields = ['bill_type', 'trasaction_number', 'amount']
+        fields = ['bill_type', 'amount', 'sender_account']
 
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['sender_account'].queryset = Account.objects.filter(user=user)
 
 class MobileRechargeForm(forms.ModelForm):
+    sender_account = forms.ModelChoiceField(queryset=Account.objects.none(), label="Sender Account")
+
     class Meta:
         model = MobileRecharge
-        fields = ['mobile_number', 'operator', 'amount']
+        fields = ['mobile_number', 'operator', 'amount','sender_account']
         widgets = {
             'operator': forms.TextInput(attrs={'placeholder': 'e.g., Airtel, Jio, etc.'}),
             'mobile_number': forms.TextInput(attrs={'placeholder': 'Enter your mobile number'}),
             'amount': forms.NumberInput(attrs={'placeholder': 'Enter recharge amount'}),
         }
-
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['sender_account'].queryset = Account.objects.filter(user=user)
 
 class SelfTransferForm(forms.Form):
     source_account = forms.ModelChoiceField(
